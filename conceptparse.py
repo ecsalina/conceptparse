@@ -111,14 +111,14 @@ def NPbigrams(tree):
 			for i in range(len(nounTerms)-1):
 			 	bigram = [nounTerms[i], nounTerms[i+1]]
 			 	bigrams.append(bigram)
-		elif len(nounTerms) == 1:
-			bigram = [nounTerms[0]]
+		elif len(nounTerms) == 1 and len(adjTerms) == 0:	#since if are adj's, then will form an
+			bigram = [nounTerms[0]]							#adj group already containing noun.
 			bigrams.append(bigram)
 
 	for b in bigrams:
 		print b
 
-	bigrams = [b[0]+"_"+b[1] if len(b) == 2 else b for b in bigrams]
+	bigrams = [b[0]+"_"+b[1] if len(b) == 2 else b[0] for b in bigrams]
 	return bigrams
 
 
@@ -132,11 +132,11 @@ def findNPs(tree):
 
 	if root == "NP":
 		#if subtree root is NP, call findNPS on it.
+		finalList = []
 		for b in branches:
-			if b[0] == "NP":
-				return findNPs(b)
+			finalList += findNPs(b)
 		#if not nested NP, just return current NP
-		return [tree]
+		return finalList if finalList else [tree]
 	else:
 		#search for NP in subtrees
 		if type(branch) == str:		#end of branch, return empty list
@@ -156,3 +156,4 @@ print bigrams
 
 
 
+def findVPBigrams(tree)
